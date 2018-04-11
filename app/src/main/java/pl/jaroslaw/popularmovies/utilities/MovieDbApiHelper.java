@@ -22,7 +22,11 @@ public class MovieDbApiHelper {
     private static int api_key_resource_id = R.string.api_key;
 
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p"; // /w500/mMZRKb3NVo5ZeSPEIaNW9buLWQ0.jpg";
-    private static final String IMAGE_SIZE_DEFAULT = "w185";
+
+    //"w92", "w154", "w185", "w342", "w500", "w780" -- default is "w185"
+    public static final String IMAGE_SIZE_DEFAULT = "w185";
+    public static final String IMAGE_SIZE_DETAILED = "w342";
+
 
     private static final String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -34,8 +38,12 @@ public class MovieDbApiHelper {
         return context.getResources().getString(R.string.api_key);
     }
 
+    public static String getUrlPosterFor(Movie movie, String size) {
+        return IMAGE_BASE_URL + "/" + size + "/" + movie.getPosterPath();
+    }
+
     public static String getUrlPosterFor(Movie movie) {
-        return IMAGE_BASE_URL + "/" + IMAGE_SIZE_DEFAULT + "/" + movie.getPosterPath();
+        return getUrlPosterFor(movie, IMAGE_SIZE_DEFAULT);
     }
 
     public static URL getPopularMovies(Context context) throws MalformedURLException {
@@ -67,6 +75,5 @@ public class MovieDbApiHelper {
 
     }
 
-    //"w92", "w154", "w185", "w342", "w500", "w780" -- default is "w185"
 
 }

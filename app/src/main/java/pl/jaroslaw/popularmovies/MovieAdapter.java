@@ -2,25 +2,22 @@ package pl.jaroslaw.popularmovies;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.jaroslaw.popularmovies.model.Movie;
-import pl.jaroslaw.popularmovies.utilities.MovieDbApiHelper;
+import pl.jaroslaw.popularmovies.service.MovieDbService;
 
 /**
  * Created by jokonski on 26.03.18.
@@ -33,8 +30,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     final private ItemClickListener itemClickListener;
     private Context context;
 
-    private int moviesCount;
-
     private List<Movie> movies = new ArrayList<>();
 
     public MovieAdapter(@NonNull ItemClickListener itemClickListener) {
@@ -46,27 +41,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         notifyDataSetChanged();
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
     public List<Movie> getMovies() {
         return movies;
     }
 
     public void clear() {
-        int currentMoviesSize = movies.size();
         movies.clear();
         notifyDataSetChanged();
-        //notifyItemRangeRemoved(0, currentMoviesSize);
 
     }
 
     public interface ItemClickListener {
         void onItemClick(int clickedIndex);
     }
-
-
 
     @NonNull
     @Override
@@ -80,9 +67,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         View view = layoutInflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
         MovieViewHolder movieViewHolder= new MovieViewHolder(view);
 
-        //movieViewHolder.tvMovieTitle = parent.findViewById(R.id.tv_movie_title);
-        //movieViewHolder.tvMovieTitle.setText("Movie TEST 1");
-
         return movieViewHolder;
     }
 
@@ -91,7 +75,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movie = movies.get(position);
         holder.tvMovieTitle.setText(movie.getTitle());
         holder.tvAvgVote.setText(movie.getVoteAvarage() + "");
-        String movieImageUrl = MovieDbApiHelper.getUrlPosterFor(movie);
+        String movieImageUrl = MovieDbService.getUrlPosterFor(movie);
         Picasso.with(context).load(movieImageUrl).into(holder.ivMovieImage);
     }
 
@@ -102,17 +86,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
 
-        //@BindView(R.id.tv_movie_title)
+        @BindView(R.id.tv_movie_title)
         public TextView tvMovieTitle;
+
+        @BindView(R.id.ivMovieImage)
         public ImageView ivMovieImage;
+
+        @BindView(R.id.tv_movie_vote)
         public TextView tvAvgVote;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            tvMovieTitle = itemView.findViewById(R.id.tv_movie_title);
-            ivMovieImage = itemView.findViewById(R.id.ivMovieImage);
-            tvAvgVote = itemView.findViewById(R.id.tv_movie_vote);
+            ButterKnife.bind(this,itemView);
         }
 
         @Override

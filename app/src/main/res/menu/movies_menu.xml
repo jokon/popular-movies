@@ -8,11 +8,11 @@
         android:id="@+id/order_top_rated"
         android:orderInCategory="1"
         android:title="@string/top_rated_order"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/order_most_popular"
         android:orderInCategory="1"
         android:title="@string/most_popular_order"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 </menu>

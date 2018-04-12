@@ -15,9 +15,6 @@ import retrofit2.http.Query;
 
 public interface MovieDbClient {
 
-    //@GET("/3/movie/popular")
-    //Call<Results> getMoviesPopular();
-
     @GET("/3/movie/{order_type}")//top_rated")
     Call<Results> getMoviesTopRated(@Path("order_type") String orderType, @Query("page") String page);
 

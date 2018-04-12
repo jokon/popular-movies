@@ -2,4 +2,9 @@
     <string name="app_name">PopularMovies</string>
     <string name="top_rated_order">Top rated</string>
     <string name="most_popular_order">Most popular</string>
+    <string name="release_date">Release date</string>
+    <string name="main_activity_title">Home</string>
+    <string name="movie_detail_title">Movie details</string>
+    <string name="popular">Most popular</string>
+    <string name="top_rated">Top rated</string>
 </resources>

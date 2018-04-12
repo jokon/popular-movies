@@ -1,40 +1,44 @@
 package pl.jaroslaw.popularmovies;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.jaroslaw.popularmovies.model.Movie;
 import pl.jaroslaw.popularmovies.service.MovieDbService;
-import pl.jaroslaw.popularmovies.utilities.MovieDbApiHelper;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    @BindView(R.id.detail_movie_title)
     TextView movieTitle;
+
+    @BindView(R.id.detail_desc)
     TextView movieDescription;
+
+    @BindView(R.id.detail_avg_vote)
     TextView movieAvgVote;
+
+    @BindView(R.id.detail_movie_poster)
     ImageView moviePoster;
     Movie movie;
+
+    @BindView(R.id.detail_movie_release_date)
     TextView movieReleaseDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getString(R.string.movie_detail_title));
         setContentView(R.layout.activity_movie_details);
-        movieTitle = (TextView) findViewById(R.id.detail_movie_title);
-        moviePoster = (ImageView) findViewById(R.id.detail_movie_poster);
-        movieAvgVote = (TextView) findViewById(R.id.detail_avg_vote);
-        movieDescription = (TextView) findViewById(R.id.detail_desc);
-        movieReleaseDate = (TextView) findViewById(R.id.detail_movie_release_date);
+        ButterKnife.bind(this);
         Intent parentActivity = getIntent();
 
         if (parentActivity.hasExtra(MainActivity.MOVIE_ID_TAG_PASSED_BY_INTENT)) {
@@ -45,13 +49,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
-        String movieImageUrl = MovieDbApiHelper.getUrlPosterFor(movie, MovieDbApiHelper.IMAGE_SIZE_DETAILED);
+        String movieImageUrl = MovieDbService.getUrlPosterFor(movie, MovieDbService.MovieSize.W342);
         Picasso.with(this).load(movieImageUrl).into(moviePoster);
         movieTitle.setText(movie.getTitle());
         movieAvgVote.setText(movie.getVoteAvarage() + "");
         movieDescription.setText(movie.getOverview());
+
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-        movieReleaseDate.setText("Release date: " + dt.format(movie.getReleaseDate()));
+        String releaseDatePart = String.format("%s: %s", getString(R.string.release_date), dt.format(movie.getReleaseDate()));
+        movieReleaseDate.setText(releaseDatePart);
     }
 
     private String getApiKey() {

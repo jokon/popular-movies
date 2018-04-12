@@ -11,28 +11,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.jaroslaw.popularmovies.model.Movie;
 import pl.jaroslaw.popularmovies.service.MovieDbService;
 import pl.jaroslaw.popularmovies.utilities.EndlessRecyclerViewScrollListener;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ItemClickListener {
 
-    private int SPAN_COUNT = 2;
-    private MovieAdapter movieAdapter;
-    private RecyclerView moviesView;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private final int SPAN_COUNT = 2;
     public static final String MOVIE_ID_TAG_PASSED_BY_INTENT = "movieId";
+
+    @BindView(R.id.rv_movies)
+    public RecyclerView moviesView;
+
+    private MovieAdapter movieAdapter;
+    private EndlessRecyclerViewScrollListener scrollListener;;
     private MovieDbService.MoviesOrder moviesOrder = MovieDbService.MoviesOrder.MOST_POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Home");
+        updateTitle();
         setContentView(R.layout.activity_main);
 
-        moviesView = (RecyclerView) findViewById(R.id.rv_movies);
+        ButterKnife.bind(this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, SPAN_COUNT);
         moviesView.setLayoutManager(gridLayoutManager);
@@ -47,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
                 loadNextDataFromApi(page);
             }
         };
-        // Adds the scroll listener to RecyclerView
         moviesView.addOnScrollListener(scrollListener);
+    }
+
+    private void updateTitle() {
+        setTitle(getString(moviesOrder.getResourceTitleId()));
     }
 
     public void loadNextDataFromApi(int offset) {
@@ -62,11 +66,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     @Override
     public void onItemClick(int clickedIndex) {
-        Movie movie = movieAdapter.getMovies().get(clickedIndex);
+        Movie clickedMovie = movieAdapter.getMovies().get(clickedIndex);
+        Log.d(MainActivity.class.getSimpleName(), clickedMovie.getTitle());
+
         Intent movieDetailsActivityIntent = new Intent(this, MovieDetailsActivity.class);
-        movieDetailsActivityIntent.putExtra(MOVIE_ID_TAG_PASSED_BY_INTENT, movie.getId());
+        movieDetailsActivityIntent.putExtra(MOVIE_ID_TAG_PASSED_BY_INTENT, clickedMovie.getId());
+
         startActivity(movieDetailsActivityIntent);
-        Log.d(MainActivity.class.getSimpleName(), movie.getTitle());
     }
 
     private String getApiKey() {
@@ -104,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         if (ifOrderWasChanged) {
             movieAdapter.clear();
             MovieDbService.listMovies(movieAdapter, 1, moviesOrder, getApiKey());
-
+            updateTitle();
             return true;
         }
 

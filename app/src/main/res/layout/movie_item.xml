@@ -14,7 +14,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
-        android:minHeight="250dp" android:contentDescription="TODO" />
+        android:contentDescription=""
+        android:minHeight="250dp"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_movie_title"
@@ -24,7 +26,6 @@
         android:layout_below="@+id/tv_movie_vote"
         android:layout_gravity="center"
         android:fontFamily="@font/trade_winds"
-        android:paddingStart="10dip"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/movieTitle"
         android:textIsSelectable="true"
@@ -38,9 +39,6 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="right"
         android:fontFamily="@font/trade_winds"
-        android:paddingEnd="10dip"
-        android:paddingStart="10dip"
-        android:textAlignment="textEnd"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/movieTitle"
         android:textSize="30sp" />

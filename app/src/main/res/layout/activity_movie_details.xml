@@ -8,9 +8,9 @@
     android:background="@color/movieTitleBackground">
 
     <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -18,31 +18,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_movie_release_date">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/detail_desc"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/atma_light"
-            android:padding="2dp"
-            android:textColor="@color/movieTitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_movie_release_date"
-            app:layout_constraintVertical_bias="0.166" />
-
-    </ScrollView>
+            android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/detail_movie_poster"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="270dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -89,19 +73,35 @@
         app:layout_constraintBottom_toTopOf="@+id/detail_movie_title"
         app:layout_constraintEnd_toEndOf="@+id/detail_movie_poster" />
 
-    <TextView
-        android:id="@+id/detail_movie_release_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/atma_light"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:textColor="@color/movieTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_movie_title" />
+            <TextView
+                android:id="@+id/detail_movie_release_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/atma_light"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/movieTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_movie_title" />
 
+            <TextView
+                android:id="@+id/detail_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/atma_light"
+                android:padding="2dp"
+                android:textColor="@color/movieTitle"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_movie_release_date"
+                 />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -74,7 +74,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
         holder.tvMovieTitle.setText(movie.getTitle());
-        holder.tvAvgVote.setText(movie.getVoteAvarage() + "");
         String movieImageUrl = MovieDbService.getUrlPosterFor(movie);
         Picasso.with(context).load(movieImageUrl).into(holder.ivMovieImage);
     }
@@ -91,9 +90,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @BindView(R.id.ivMovieImage)
         public ImageView ivMovieImage;
-
-        @BindView(R.id.tv_movie_vote)
-        public TextView tvAvgVote;
 
         public MovieViewHolder(View itemView) {
             super(itemView);

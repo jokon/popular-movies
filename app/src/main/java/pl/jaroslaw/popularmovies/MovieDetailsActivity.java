@@ -43,7 +43,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         if (parentActivity.hasExtra(MainActivity.MOVIE_ID_TAG_PASSED_BY_INTENT)) {
             Long movieId = parentActivity.getLongExtra(MainActivity.MOVIE_ID_TAG_PASSED_BY_INTENT, 0L);
-            MovieDbService.getMovieDetails(this, movieId, getApiKey());
+            MovieDbService.getMovieDetails(this, movieId);
         }
     }
 
@@ -58,9 +58,5 @@ public class MovieDetailsActivity extends AppCompatActivity {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
         String releaseDatePart = String.format("%s: %s", getString(R.string.release_date), dt.format(movie.getReleaseDate()));
         movieReleaseDate.setText(releaseDatePart);
-    }
-
-    private String getApiKey() {
-        return getResources().getString(R.string.api_key);
     }
 }

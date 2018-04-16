@@ -8,6 +8,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import pl.jaroslaw.popularmovies.BuildConfig;
 import pl.jaroslaw.popularmovies.MovieAdapter;
 import pl.jaroslaw.popularmovies.MovieDetailsActivity;
 import pl.jaroslaw.popularmovies.R;
@@ -29,6 +30,7 @@ public class MovieDbService {
     private static final String TAG = MovieDbService.class.getSimpleName();
     private static final String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/api/";
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
+    public static final String API_KEY = BuildConfig.API_KEY;
 
 
     private static MovieDbClient getMovieDbClient(final String apiKey) {
@@ -61,10 +63,10 @@ public class MovieDbService {
         return movieDbClient;
     }
 
-    public static void listMovies(final MovieAdapter movieAdapter, int page, MoviesOrder moviesOrder, final String apiKey) {
+    public static void listMovies(final MovieAdapter movieAdapter, int page, MoviesOrder moviesOrder) {
         Log.d(TAG, "Load page " + page + " with order " + moviesOrder.name());
 
-        Call<Results> call = getMovieDbClient(apiKey).getMoviesTopRated(moviesOrder.getDbMovieApiPathPart(), page +"");
+        Call<Results> call = getMovieDbClient(API_KEY).getMoviesTopRated(moviesOrder.getDbMovieApiPathPart(), page +"");
 
         call.enqueue(new Callback<Results>() {
             @Override
@@ -81,12 +83,12 @@ public class MovieDbService {
         });
     }
 
-    public static void appendNextPage(MovieAdapter movieAdapter, int offset, MoviesOrder moviesOrder, String apiKey) {
-        listMovies(movieAdapter, offset, moviesOrder, apiKey);
+    public static void appendNextPage(MovieAdapter movieAdapter, int offset, MoviesOrder moviesOrder) {
+        listMovies(movieAdapter, offset, moviesOrder);
     }
 
-    public static void getMovieDetails(final MovieDetailsActivity detailsActivity, Long movieId, String apiKey) {
-        Call<Movie> call = getMovieDbClient(apiKey).getMovieById(Long.toString(movieId));
+    public static void getMovieDetails(final MovieDetailsActivity detailsActivity, Long movieId) {
+        Call<Movie> call = getMovieDbClient(API_KEY).getMovieById(Long.toString(movieId));
 
         call.enqueue(new Callback<Movie>() {
             @Override

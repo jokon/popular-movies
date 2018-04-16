@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //Ensure to put valid apki_key for themoviedb.org API inside build.gradle file
+        buildConfigField("String", "API_KEY", API_KEY)
     }
     buildTypes {
         release {

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         moviesView.setVisibility(View.VISIBLE);
 
-        MovieDbService.listMovies(movieAdapter, 1, moviesOrder, getApiKey());
+        MovieDbService.listMovies(movieAdapter, 1, moviesOrder);
 
         scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     }
 
     public void loadNextDataFromApi(int offset) {
-        MovieDbService.appendNextPage(movieAdapter, offset, moviesOrder, getApiKey());
+        MovieDbService.appendNextPage(movieAdapter, offset, moviesOrder);
     }
 
     @Override
@@ -86,10 +86,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         movieDetailsActivityIntent.putExtra(MOVIE_ID_TAG_PASSED_BY_INTENT, clickedMovie.getId());
 
         startActivity(movieDetailsActivityIntent);
-    }
-
-    private String getApiKey() {
-        return getResources().getString(R.string.api_key);
     }
 
     @Override
@@ -122,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         if (ifOrderWasChanged) {
             movieAdapter.clear();
-            MovieDbService.listMovies(movieAdapter, 1, moviesOrder, getApiKey());
+            MovieDbService.listMovies(movieAdapter, 1, moviesOrder);
             updateTitle();
             return true;
         }
